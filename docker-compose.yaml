@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  jupyterhub:
+    build:
+      context: ./jupyterhub
+      args:
+        - HUB_BASE_IMAGE=${HUB_BASE_IMAGE_NAME}:${HUB_BASE_IMAGE_VERSION}
+    image: ${HUB_IMAGE}
+    container_name: ${HUB_CONTAINER_NAME}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - hub_data:/srv/jupyterhub
+    environment:
+      - DOCKER_NETWORK_NAME=${DOCKER_NETWORK_NAME}
+      - HUB_IP=${HUB_CONTAINER_NAME}
+      - HUB_CONTAINER_PORT=${HUB_CONTAINER_PORT}
+      - LAB_IMAGE=${LAB_IMAGE}
+      - LAB_RUNTIME=${LAB_RUNTIME}
+      - LAB_CONTAINER_PORT=${LAB_CONTAINER_PORT}
+      - LAB_BIND_MOUNTS=${LAB_BIND_MOUNTS}
+      - IDLE_CULLER_TIMEOUT=${IDLE_CULLER_TIMEOUT}
+      - ALLOWED_USERS=${ALLOWED_USERS}
+    ports:
+      - '${HUB_HOST_PORT}:${HUB_CONTAINER_PORT}'
+    restart: on-failure
+
+  jupyterlab:
+    build:
+      context: ./jupyterlab
+      args:
+        - HUB_VERSION=${HUB_VERSION}
+        - LAB_VERSION=${LAB_VERSION}
+        - LAB_BASE_IMAGE=${LAB_BASE_IMAGE_NAME}:${LAB_BASE_IMAGE_VERSION}
+    image: ${LAB_IMAGE}
+    container_name: jupyterlab-tmp
+    runtime: ${LAB_RUNTIME}
+    network_mode: none
+    command: echo
+
+volumes:
+  hub_data:
+
+networks:
+  default:
+    name: ${DOCKER_NETWORK_NAME}

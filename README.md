@@ -1,9 +1,21 @@
 # JupyterHub with CUDA and individual single-user containers
 
-Derived from instructions by the following:
-- [Deploying a Containerized Jupyterhub Server with Docker](https://opendreamkit.org/2018/10/17/jupyterhub-docker/)
-- [Deploying Jupyterhub using Docker (PDF)](https://www.pharmasug.org/proceedings/china2022/AT/Pharmasug-China-2022-AT153.pdf)
-- [How to Create a GPU-Powered Containerized Multi-User JupyterHub Research Server?](https://tustunkok.github.io/tutorial/notes-to-myself/vps/2020/05/16/how-to-create-a-gpu-powered-containerized-multi-user-jupyterhub-research-server.html)
+
+## Features
+
+- CUDA-capable using CUDA-capable JupyterLab base containers ([docker-jupyter-cuda](https://github.com/kentwait/docker-jupyter-cuda))
+- Spawns single-user JupyterLab containers using [dockerspawner](https://github.com/jupyterhub/dockerspawner)
+- Uses [jupyterhub-firstuseauthenticator](https://pypi.org/project/jupyterhub-firstuseauthenticator/) authenticator that 
+set a user's password on first login to JupyterHub.
+
+
+## Usage
+
+- Clone this repository, e.g. `git clone https://github.com/kentwait/jupyterhub-dockerspawner-cuda.git`
+- Make a `.env` file in the format `KEY=VALUE` and save it alongside `docker-compose.yaml`
+Refer to the Environment variables section for more information.
+- Run `docker compose up`
+
 
 ## Environment variables
 
@@ -72,6 +84,16 @@ Default is unset
 Amount of idle time in seconds before single-user JupyterLab containers are automatically stopped.
 Default: `3600`
 
+
+## Credits
+
+Derived from the following:
+- [Deploying a Containerized Jupyterhub Server with Docker](https://opendreamkit.org/2018/10/17/jupyterhub-docker/)
+- [Deploying Jupyterhub using Docker (PDF)](https://www.pharmasug.org/proceedings/china2022/AT/Pharmasug-China-2022-AT153.pdf)
+- [How to Create a GPU-Powered Containerized Multi-User JupyterHub Research Server?](https://tustunkok.github.io/tutorial/notes-to-myself/vps/2020/05/16/how-to-create-a-gpu-powered-containerized-multi-user-jupyterhub-research-server.html)
+
+
 ## See also
+
 - [DockerSpawner docs](https://jupyterhub-dockerspawner.readthedocs.io/en/latest/index.html)
 - [JupyterHub - Spawners and single-user notebook servers](https://jupyterhub.readthedocs.io/en/stable/tutorial/getting-started/spawners-basics.html)
